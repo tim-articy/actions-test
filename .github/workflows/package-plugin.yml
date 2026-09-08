@@ -55,7 +55,6 @@ jobs:
           token: ${{ github.token }}
 
       - name: Save next RC version
-        id: rc_version_info
         if: ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}
         run: |
           echo "NEXT_VERSION=${{ steps.rc_version_info.outputs.next }}" >> "$GITHUB_ENV"
