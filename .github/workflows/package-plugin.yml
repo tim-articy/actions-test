@@ -29,33 +29,33 @@ jobs:
 
       - name: Debug latest tag condition
         run: |
-          echo "Latest tag contains -rc? ${{ contains('-rc', steps.latest_tag.outputs.tag) }}" >> $GITHUB_STEP_SUMMARY
+          echo "Latest tag contains -rc? ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}" >> $GITHUB_STEP_SUMMARY
 
       # Last tag is a full release version, determine upcoming first RC
       - name: Determine version
         id: version_info
-        if: ${{ !contains('-rc', steps.latest_tag.outputs.tag) }}
+        if: ${{ !contains(steps.latest_tag.outputs.tag, '-rc') }}
         uses: ietf-tools/semver-action@v1
         with:
           token: ${{ github.token }}
           branch: main
 
       - name: Save next version
-        if: ${{ !contains('-rc', steps.latest_tag.outputs.tag) }}
+        if: ${{ !contains(steps.latest_tag.outputs.tag, '-rc') }}
         run: |
           echo "NEXT_VERSION=${{ steps.version_info.outputs.next }}-rc1" >> "$GITHUB_ENV"
           echo "Using next version $NEXT_VERSION" >> $GITHUB_STEP_SUMMARY
 
       # Last tag is a release candidate, count up RC number
       - name: Determine next RC version
-        if: ${{ contains('-rc', steps.latest_tag.outputs.tag )}}
+        if: ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}
         uses: '$/.github/actions/release-candidate-increase'
         with:
           token: ${{ github.token }}
 
       - name: Save next RC version
         id: rc_version_info
-        if: ${{ contains('-rc', steps.latest_tag.outputs.tag )}}
+        if: ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}
         run: |
           echo "NEXT_VERSION=${{ steps.rc_version_info.outputs.next }}" >> "$GITHUB_ENV"
           echo "Using bumped RC version $NEXT_VERSION" >> $GITHUB_STEP_SUMMARY
