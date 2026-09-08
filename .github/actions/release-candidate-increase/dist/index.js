@@ -33734,7 +33734,7 @@ async function main() {
         return setFailed(`Failed to determine latest RC number from version ${lastTag}. Is it not an RC version?`);
     }
 
-    const nextRc = matches[0][2] + 1;
+    const nextRc = parseInt(matches[0][2]) + 1;
     const nextRcVersion = `v${matches[0][1]}-rc${nextRc}`;
 
     setOutput('current', lastTag);
