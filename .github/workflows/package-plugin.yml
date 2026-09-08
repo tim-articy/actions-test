@@ -48,6 +48,7 @@ jobs:
 
       # Last tag is a release candidate, count up RC number
       - name: Determine next RC version
+        id: rc_version_info
         if: ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}
         uses: '$/.github/actions/release-candidate-increase'
         with:
@@ -58,7 +59,7 @@ jobs:
         if: ${{ contains(steps.latest_tag.outputs.tag, '-rc') }}
         run: |
           echo "NEXT_VERSION=${{ steps.rc_version_info.outputs.next }}" >> "$GITHUB_ENV"
-          echo "Using bumped RC version $NEXT_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "Using bumped RC version ${{ steps.rc_version_info.outputs.next }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Create RC tag
         run: |
