@@ -28406,6 +28406,13 @@ function setFailed(message) {
 function error(message, properties = {}) {
     issueCommand('error', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
+/**
+ * Writes info to log with console.log.
+ * @param message info message
+ */
+function info(message) {
+    process.stdout.write(message + os.EOL);
+}
 
 class Context {
     /**
@@ -33718,10 +33725,13 @@ async function main() {
         return setFailed("Couldn't find the latest tag. Make sure you have at least one tag created.");
     }
 
+    info(`Nodes is: ${tagQuery.repository.refs.nodes}`);
+
     lastTag = tagQuery.repository.refs.nodes[0].name;
+    info(`Using last tag ${lastTag} as reference`);
     const matches = [...lastTag.matchAll(rcTagRegex)];
     if (matches.length < 1) {
-        return setFailed(`Failed to determine latest RC number from version $lastTag. Is it not an RC version?`);
+        return setFailed(`Failed to determine latest RC number from version ${lastTag}. Is it not an RC version?`);
     }
 
     const nextRc = matches[2] + 1;

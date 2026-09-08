@@ -52,10 +52,13 @@ async function main() {
         return core.setFailed("Couldn't find the latest tag. Make sure you have at least one tag created.");
     }
 
+    core.info(`Nodes is: ${tagQuery.repository.refs.nodes}`);
+
     lastTag = tagQuery.repository.refs.nodes[0].name;
+    core.info(`Using last tag ${lastTag} as reference`);
     const matches = [...lastTag.matchAll(rcTagRegex)];
     if (matches.length < 1) {
-        return core.setFailed(`Failed to determine latest RC number from version $lastTag. Is it not an RC version?`);
+        return core.setFailed(`Failed to determine latest RC number from version ${lastTag}. Is it not an RC version?`);
     }
 
     const nextRc = matches[2] + 1;
