@@ -8,7 +8,7 @@ async function main() {
     const owner = github.context.repo.owner;
     const name = github.context.repo.repo;
 
-    const rcTagRegex = /^v?(\d+\.d+\.\d+)\-rc(\d+)$/g;
+    const rcTagRegex = /^v?(\d+\.\d+\.\d+)\-rc(\d+)$/g;
 
     let lastTag = null;
 

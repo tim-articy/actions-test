@@ -33681,7 +33681,7 @@ async function main() {
     const owner = context.repo.owner;
     const name = context.repo.repo;
 
-    const rcTagRegex = /^v?(\d+\.d+\.\d+)\-rc(\d+)$/g;
+    const rcTagRegex = /^v?(\d+\.\d+\.\d+)\-rc(\d+)$/g;
 
     let lastTag = null;
 
