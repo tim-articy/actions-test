@@ -61,13 +61,13 @@ async function main() {
         return core.setFailed(`Failed to determine latest RC number from version ${lastTag}. Is it not an RC version?`);
     }
 
-    const nextRc = matches[2] + 1;
-    const nextRcVersion = `${matches[1]}-rc${nextRc}`;
+    const nextRc = matches[0][2] + 1;
+    const nextRcVersion = `v${matches[0][1]}-rc${nextRc}`;
 
     core.setOutput('current', lastTag);
     core.setOutput('next', nextRcVersion);
-    core.setOutput('nextVersion', matches[1]);
-    core.setOutput('nextVersionStrict', matches[1].startsWith('v') ? matches[1].substring(1) : matches[1]);
+    core.setOutput('nextVersion', matches[0][1]);
+    core.setOutput('nextVersionStrict', matches[0][1].startsWith('v') ? matches[0][1].substring(1) : matches[0][1]);
     core.setOutput('nextReleaseCandidate', nextRc);
 }
 
